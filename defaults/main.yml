@@ -1,0 +1,5 @@
+---
+
+virtualbox_version: 5.1
+virtualbox_local_users:
+  - root

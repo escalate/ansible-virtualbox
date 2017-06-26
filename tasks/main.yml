@@ -1,0 +1,44 @@
+---
+
+- name: Import VirtualBox GPG signing key
+  apt_key:
+    url: https://www.virtualbox.org/download/oracle_vbox_2016.asc
+    state: present
+    id: 2980AECF
+  when: ansible_os_family == 'Debian'
+  tags:
+    - virtualbox
+
+- name: Add VirtualBox repository
+  apt_repository:
+    repo: "deb http://download.virtualbox.org/virtualbox/debian {{ansible_distribution_release | lower}} contrib"
+    state: present
+  when: ansible_os_family == 'Debian'
+  tags:
+    - virtualbox
+
+- name: Install VirtualBox packages
+  apt:
+    name: "virtualbox-{{virtualbox_version}}"
+    state: present
+    update_cache: yes
+  when: ansible_os_family == 'Debian'
+  tags:
+    - virtualbox
+
+- name: Install Dynamic Kernel Module Support packages
+  apt:
+    name: dkms
+    state: present
+  when: ansible_os_family == 'Debian'
+  tags:
+    - virtualbox
+
+- name: Add local users to vboxusers group
+  user:
+    name: "{{item}}"
+    append: yes
+    groups: vboxusers
+  with_items: "{{virtualbox_local_users}}"
+  tags:
+    - virtualbox
