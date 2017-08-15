@@ -39,6 +39,6 @@
     name: "{{item}}"
     append: yes
     groups: vboxusers
-  with_items: "{{virtualbox_local_users}}"
+  with_items: "{{virtualbox_group_members}}"
   tags:
     - virtualbox
