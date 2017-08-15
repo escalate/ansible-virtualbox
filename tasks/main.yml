@@ -34,6 +34,12 @@
   tags:
     - virtualbox
 
+- name: Update VirtualBox Linux kernel module
+  shell: /sbin/vboxconfig
+  when: ansible_os_family == 'Debian'
+  tags:
+    - virtualbox
+
 - name: Add local users to vboxusers group
   user:
     name: "{{item}}"
